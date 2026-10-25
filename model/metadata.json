@@ -1,0 +1,122 @@
+{
+  "model_version": "1.0.0",
+  "task": "rank lines of a failed CI build log by how likely they belong to the failure explanation",
+  "feature_set": "old",
+  "features": [
+    "rel_pos",
+    "from_end",
+    "log_len",
+    "len",
+    "indent",
+    "digit_frac",
+    "upper_frac",
+    "has_path_ln",
+    "is_at_frame",
+    "is_cmd_exit",
+    "is_prompt",
+    "d_next_exit",
+    "d_prev_exit",
+    "kw_error",
+    "kw_fail",
+    "kw_exception",
+    "kw_traceback",
+    "kw_assert",
+    "kw_expected",
+    "kw_panic",
+    "kw_undefined",
+    "kw_not_found",
+    "kw_timeout",
+    "kw_warning",
+    "kw_exit",
+    "kw_error_w3",
+    "kw_error_w10",
+    "kw_fail_w3",
+    "kw_fail_w10",
+    "kw_expected_w3",
+    "kw_expected_w10",
+    "has_path_ln_w3",
+    "has_path_ln_w10",
+    "is_at_frame_w3",
+    "is_at_frame_w10",
+    "indented_w3",
+    "indented_w10",
+    "sec_after_failure",
+    "sec_after_script",
+    "sec_announce",
+    "sec_apt",
+    "sec_before_install",
+    "sec_before_script",
+    "sec_cache",
+    "sec_git",
+    "sec_install",
+    "sec_none",
+    "sec_other",
+    "sec_script",
+    "sec_system_info",
+    "sec_test",
+    "sec_worker_info"
+  ],
+  "n_trees": 80,
+  "params": {
+    "max_depth": 4,
+    "learning_rate": 0.05,
+    "subsample": 0.7,
+    "colsample_bytree": 0.7,
+    "min_child_weight": 20,
+    "reg_lambda": 10
+  },
+  "train_repos": 64,
+  "train_rows": 1544088,
+  "label_rules": {
+    "train_block_cap_lines": 50,
+    "head_lines": 30
+  },
+  "xgboost_version": "3.4.1",
+  "sklearn_version": "1.6.1",
+  "test": {
+    "closest to log end": {
+      "hit@1": 0.020833333333333332,
+      "hit@5": 0.3055555555555556,
+      "hit@10": 0.3541666666666667,
+      "head hit@5": 0.2916666666666667,
+      "head hit@10": 0.3402777777777778,
+      "per-repo hit@10": 0.34375,
+      "line PR-AUC": 0.09949305616353063
+    },
+    "final model": {
+      "hit@1": 0.4791666666666667,
+      "hit@5": 0.6805555555555556,
+      "hit@10": 0.8125,
+      "head hit@5": 0.5694444444444444,
+      "head hit@10": 0.7083333333333334,
+      "per-repo hit@10": 0.815625,
+      "line PR-AUC": 0.40855546131939935
+    },
+    "keyword rule": {
+      "hit@1": 0.14583333333333334,
+      "hit@5": 0.3472222222222222,
+      "hit@10": 0.4513888888888889,
+      "head hit@5": 0.2986111111111111,
+      "head hit@10": 0.4166666666666667,
+      "per-repo hit@10": 0.47760416666666666,
+      "line PR-AUC": 0.04508490329339027
+    },
+    "random": {
+      "hit@1": 0.020833333333333332,
+      "hit@5": 0.06944444444444445,
+      "hit@10": 0.09722222222222222,
+      "head hit@5": 0.034722222222222224,
+      "head hit@10": 0.04861111111111111,
+      "per-repo hit@10": 0.12239583333333333,
+      "line PR-AUC": 0.008590458586480498
+    }
+  },
+  "test_hit10_ci95": [
+    0.6503317850033178,
+    0.9496492805755395
+  ],
+  "notes": [
+    "scores are only comparable within one log; use the ranking, not a global threshold",
+    "trained on Travis CI logs from 80 GitHub repositories; other CI formats are untested"
+  ]
+}
